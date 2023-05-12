@@ -15,12 +15,16 @@ class _ClockScreenState extends State<ClockScreen>
 
   @override
   void initState() {
-    _timeString = _formatDateTime(DateTime.now());
+    DateTime nowTime = DateTime.now();
+    double controllerValue = nowTime.second.toDouble() / 60;
+
+    _timeString = _formatDateTime(nowTime);
     Timer.periodic(const Duration(seconds: 1), (Timer t) => _getTime());
+
     controller = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 60),
-      value: DateTime.now().second.toDouble() / 60.0,
+      value: controllerValue,
     )..addListener(() {
         setState(() {});
       });
@@ -43,7 +47,7 @@ class _ClockScreenState extends State<ClockScreen>
   }
 
   String _formatDateTime(DateTime dateTime) {
-    return '${dateTime.hour}:${dateTime.minute}';
+    return '${dateTime.hour} : ${dateTime.minute}';
   }
 
   @override
@@ -57,7 +61,8 @@ class _ClockScreenState extends State<ClockScreen>
                 _timeString,
                 style: const TextStyle(
                   fontSize: 32,
-                  letterSpacing: 3,
+                  letterSpacing: 5,
+                  color: Colors.blueGrey,
                 ),
               ),
             ),
@@ -66,6 +71,8 @@ class _ClockScreenState extends State<ClockScreen>
                 width: 250,
                 height: 250,
                 child: CircularProgressIndicator(
+                  color: const Color.fromARGB(255, 100, 125, 150),
+                  backgroundColor: const Color.fromARGB(120, 120, 200, 200),
                   value: controller.value,
                   strokeWidth: 2.0,
                 ),
