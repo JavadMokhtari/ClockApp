@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:step_progress_indicator/step_progress_indicator.dart';
 
 class ClockScreen extends StatefulWidget {
   const ClockScreen({super.key});
@@ -47,40 +48,40 @@ class _ClockScreenState extends State<ClockScreen>
   }
 
   String _formatDateTime(DateTime dateTime) {
-    return '${dateTime.hour} : ${dateTime.minute}';
+    String minute = dateTime.minute.toString().padLeft(2, '0');
+    String hour = dateTime.hour.toString().padLeft(2, '0');
+    return '$hour:$minute';
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        body: Center(
-          child: Stack(children: [
-            Center(
-              child: Text(
-                _timeString,
-                style: const TextStyle(
-                  fontSize: 32,
-                  letterSpacing: 5,
-                  color: Colors.blueGrey,
-                ),
+          body: Center(
+        child: CircularStepProgressIndicator(
+          height: 250,
+          width: 250,
+          totalSteps: 60,
+          currentStep: DateTime.now().second.toInt(),
+          selectedStepSize: 5,
+          unselectedStepSize: 4.5,
+          gradientColor: const LinearGradient(
+            colors: [Colors.blueGrey, Colors.teal],
+          ),
+          unselectedColor: const Color.fromARGB(50, 120, 200, 120),
+          child: Center(
+            child: Text(
+              _timeString,
+              style: const TextStyle(
+                fontSize: 35,
+                fontWeight: FontWeight.w100,
+                letterSpacing: 10,
+                color: Colors.blueGrey,
               ),
             ),
-            Center(
-              child: SizedBox(
-                width: 250,
-                height: 250,
-                child: CircularProgressIndicator(
-                  color: const Color.fromARGB(255, 100, 125, 150),
-                  backgroundColor: const Color.fromARGB(120, 120, 200, 200),
-                  value: controller.value,
-                  strokeWidth: 2.0,
-                ),
-              ),
-            )
-          ]),
+          ),
         ),
-      ),
+      )),
     );
   }
 }
