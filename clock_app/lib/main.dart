@@ -1,4 +1,5 @@
 import 'package:clock_app/screens/clock_screen.dart';
+import 'package:clock_app/screens/alarm_screen.dart';
 import 'package:flutter/material.dart';
 
 void main(List<String> args) {
@@ -16,7 +17,7 @@ class _ClockAppState extends State<ClockApp> {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: ClockScreen(),
+      home: AlarmScreen(),
     );
   }
 }
