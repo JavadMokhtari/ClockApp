@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:clock_app/constants/colors.dart';
+import 'package:clock_app/widgets/bottom_navigation_bar.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 
 class ClockScreen extends StatefulWidget {
@@ -9,27 +11,14 @@ class ClockScreen extends StatefulWidget {
   State<ClockScreen> createState() => _ClockScreenState();
 }
 
-class _ClockScreenState extends State<ClockScreen>
-    with TickerProviderStateMixin {
+class _ClockScreenState extends State<ClockScreen> {
   late String _timeString;
-  late AnimationController controller;
 
   @override
   void initState() {
     DateTime nowTime = DateTime.now();
-    double controllerValue = nowTime.second.toDouble() / 60;
-
     _timeString = _formatDateTime(nowTime);
     Timer.periodic(const Duration(seconds: 1), (Timer t) => _getTime());
-
-    controller = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 60),
-      value: controllerValue,
-    )..addListener(() {
-        setState(() {});
-      });
-    controller.repeat();
     super.initState();
   }
 
@@ -41,12 +30,6 @@ class _ClockScreenState extends State<ClockScreen>
     });
   }
 
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
-  }
-
   String _formatDateTime(DateTime dateTime) {
     String minute = dateTime.minute.toString().padLeft(2, '0');
     String hour = dateTime.hour.toString().padLeft(2, '0');
@@ -55,33 +38,31 @@ class _ClockScreenState extends State<ClockScreen>
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-          body: Center(
+    return Scaffold(
+      backgroundColor: CustomColors.background,
+      bottomNavigationBar: const ClockAppBottomNavigationBar(),
+      body: Center(
         child: CircularStepProgressIndicator(
-          height: 250,
-          width: 250,
+          height: 200,
+          width: 200,
           totalSteps: 60,
           currentStep: DateTime.now().second.toInt(),
           selectedStepSize: 5,
           unselectedStepSize: 4.5,
-          gradientColor: const LinearGradient(
-            colors: [Colors.blueGrey, Colors.teal],
-          ),
-          unselectedColor: const Color.fromARGB(50, 120, 200, 120),
+          gradientColor: GradientColors.linearGrad,
           child: Center(
             child: Text(
               _timeString,
               style: const TextStyle(
                 fontSize: 35,
-                fontWeight: FontWeight.w100,
-                letterSpacing: 10,
-                color: Colors.blueGrey,
+                fontFamily: "montserrat",
+                letterSpacing: 5,
+                color: Colors.white,
               ),
             ),
           ),
         ),
-      )),
+      ),
     );
   }
 }
