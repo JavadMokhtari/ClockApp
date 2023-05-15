@@ -13,9 +13,15 @@ class StopwatchScreen extends StatefulWidget {
 class _StopwatchScreenState extends State<StopwatchScreen> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      backgroundColor: CustomColors.background,
-      bottomNavigationBar: ClockAppBottomNavigationBar(),
+    return const Center(
+      child: Text(
+        "Stop Watch Page",
+        style: TextStyle(
+          fontFamily: "ubuntu",
+          fontSize: 30,
+          color: CustomColors.screensFontColor,
+        ),
+      ),
     );
   }
 }

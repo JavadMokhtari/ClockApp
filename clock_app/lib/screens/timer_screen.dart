@@ -13,9 +13,15 @@ class TimerScreen extends StatefulWidget {
 class _TimerScreenState extends State<TimerScreen> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      backgroundColor: CustomColors.background,
-      bottomNavigationBar: ClockAppBottomNavigationBar(),
+    return const Center(
+      child: Text(
+        "Timer Page",
+        style: TextStyle(
+          fontFamily: "ubuntu",
+          fontSize: 30,
+          color: CustomColors.screensFontColor,
+        ),
+      ),
     );
   }
 }
