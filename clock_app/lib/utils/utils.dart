@@ -25,20 +25,27 @@ class _NewAlarmState extends State<NewAlarm> {
         borderRadius: BorderRadius.circular(10),
       ),
       elevation: 20,
-      child: ListTile(
-        title: Text(
-          widget.time,
-          style: const TextStyle(
-            fontFamily: "ubuntu",
-            color: CustomColors.screensFontColor,
-            fontSize: 20,
-            letterSpacing: 3,
+      margin: const EdgeInsets.all(5),
+      child: SizedBox(
+        height: 60,
+        width: 400,
+        child: Center(
+          child: ListTile(
+            title: Text(
+              widget.time,
+              style: const TextStyle(
+                fontFamily: "ubuntu",
+                color: CustomColors.screensFontColor,
+                fontSize: 20,
+                letterSpacing: 3,
+              ),
+            ),
+            trailing: Switch(
+              value: alarmStatus,
+              onChanged: switchAlarm,
+              activeColor: CustomColors.secondaryColor,
+            ),
           ),
-        ),
-        trailing: Switch(
-          value: alarmStatus,
-          onChanged: switchAlarm,
-          activeColor: CustomColors.secondaryColor,
         ),
       ),
     );
