@@ -1,5 +1,9 @@
+import 'package:clock_app/screens/alarm_screen.dart';
+import 'package:clock_app/screens/clock_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:clock_app/constants/colors.dart';
+import '../screens/stopwatch_screen.dart';
+import '../screens/timer_screen.dart';
 
 class ClockAppBottomNavigationBar extends StatefulWidget {
   const ClockAppBottomNavigationBar({super.key});
@@ -11,11 +15,24 @@ class ClockAppBottomNavigationBar extends StatefulWidget {
 
 class _ClockAppBottomNavigationBarState
     extends State<ClockAppBottomNavigationBar> {
-  int screenIndex = 1;
+  _ClockAppBottomNavigationBarState();
+
+  List screens = [
+    const AlarmScreen(),
+    const ClockScreen(),
+    const StopwatchScreen(),
+    const TimerScreen(),
+  ];
+  late int screenIndex;
 
   void _onItemTap(index) {
+    screenIndex = index;
     setState(() {
-      screenIndex = index;
+      Navigator.push<void>(
+          context,
+          MaterialPageRoute(
+              builder: (BuildContext context) =>
+                  screens[screenIndex](screenIndex)));
     });
   }
 
@@ -48,7 +65,7 @@ class _ClockAppBottomNavigationBarState
                 label: "Timer",
               ),
             ],
-            currentIndex: screenIndex,
+            currentIndex: screenIndex ?? 1,
             onTap: _onItemTap,
             backgroundColor: CustomColors.navigationBarBackground,
             type: BottomNavigationBarType.shifting,
