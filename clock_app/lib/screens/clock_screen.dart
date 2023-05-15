@@ -38,27 +38,24 @@ class _ClockScreenState extends State<ClockScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: CustomColors.background,
-      bottomNavigationBar: const ClockAppBottomNavigationBar(),
-      body: Center(
-        child: CircularStepProgressIndicator(
-          height: 200,
-          width: 200,
-          totalSteps: 60,
-          currentStep: DateTime.now().second.toInt(),
-          selectedStepSize: 5,
-          unselectedStepSize: 4.5,
-          gradientColor: GradientColors.linearGrad,
-          child: Center(
-            child: Text(
-              _timeString,
-              style: const TextStyle(
-                fontSize: 35,
-                fontFamily: "montserrat",
-                letterSpacing: 5,
-                color: Colors.white,
-              ),
+    return Center(
+      child: CircularStepProgressIndicator(
+        height: 200,
+        width: 200,
+        totalSteps: 60,
+        currentStep: DateTime.now().second.toInt(),
+        selectedStepSize: 5,
+        unselectedStepSize: 4.5,
+        gradientColor: GradientColors.linearGrad,
+        unselectedColor: const Color.fromARGB(80, 0, 0, 0),
+        child: Center(
+          child: Text(
+            _timeString,
+            style: const TextStyle(
+              fontSize: 35,
+              fontFamily: "ubuntu",
+              letterSpacing: 5,
+              color: Colors.white,
             ),
           ),
         ),
