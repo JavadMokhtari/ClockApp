@@ -1,7 +1,5 @@
-import 'package:clock_app/widgets/bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
-
-import '../constants/colors.dart';
+import 'package:clock_app/constants/colors.dart';
 
 class StopwatchScreen extends StatefulWidget {
   const StopwatchScreen({super.key});
@@ -19,7 +17,7 @@ class _StopwatchScreenState extends State<StopwatchScreen> {
         style: TextStyle(
           fontFamily: "ubuntu",
           fontSize: 30,
-          color: CustomColors.screensFontColor,
+          color: CustomColors.foreground,
         ),
       ),
     );
