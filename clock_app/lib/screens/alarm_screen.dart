@@ -1,8 +1,7 @@
 import 'package:clock_app/utils/utils.dart';
+import 'package:clock_app/constants/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../constants/colors.dart';
 
 class AlarmScreen extends StatefulWidget {
   const AlarmScreen({super.key});
@@ -15,6 +14,7 @@ class _AlarmScreenState extends State<AlarmScreen> {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   List<Widget> _alarmsList = [];
   List<String> _loadedAlarms = [];
+  int _numOnAlarms = 0;
 
   @override
   void initState() {
@@ -49,31 +49,66 @@ class _AlarmScreenState extends State<AlarmScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(children: [
-      Padding(
-        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
-        child: SingleChildScrollView(
-          child: Align(
-            alignment: Alignment.topCenter,
-            child: Column(
-              children: _alarmsList,
-            ),
+    return Scaffold(
+      backgroundColor: CustomColors.background,
+      // elevation: 10,
+      appBar: AppBar(
+        backgroundColor: CustomColors.background,
+        foregroundColor: CustomColors.foreground,
+        elevation: 0,
+        title: ListTile(
+          leading: _numOnAlarms == 0
+              ? const Text(
+                  "All alarms are off",
+                  style: TextStyle(
+                    fontFamily: "ubuntu",
+                    fontSize: 18,
+                    color: CustomColors.foreground,
+                    letterSpacing: 1,
+                  ),
+                )
+              : const Text(
+                  "Alarm in 3 hours 20 minutes",
+                  style: TextStyle(
+                    fontFamily: "ubuntu",
+                    fontSize: 18,
+                    color: CustomColors.foreground,
+                    letterSpacing: 1,
+                  ),
+                ),
+          trailing: IconButton(
+            icon: const Icon(Icons.more_vert_rounded),
+            onPressed: () {},
+            color: CustomColors.foreground,
           ),
         ),
       ),
-      Align(
-        alignment: Alignment.bottomRight,
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(0, 0, 25, 20),
-          child: FloatingActionButton(
-            backgroundColor: Colors.deepPurple,
-            foregroundColor: CustomColors.screensFontColor,
-            elevation: 15,
-            onPressed: _addAlarm,
-            child: const Icon(Icons.add_alarm),
+      body: Stack(children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
+          child: SingleChildScrollView(
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: Column(
+                children: _alarmsList,
+              ),
+            ),
           ),
         ),
-      )
-    ]);
+        Align(
+          alignment: Alignment.bottomRight,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(0, 0, 25, 20),
+            child: FloatingActionButton(
+              backgroundColor: Colors.deepPurple,
+              foregroundColor: CustomColors.foreground,
+              elevation: 15,
+              onPressed: _addAlarm,
+              child: const Icon(Icons.add_alarm),
+            ),
+          ),
+        ),
+      ]),
+    );
   }
 }
