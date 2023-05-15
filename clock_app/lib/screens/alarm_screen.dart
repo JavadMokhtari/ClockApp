@@ -39,7 +39,12 @@ class _AlarmScreenState extends State<AlarmScreen> {
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
         child: SingleChildScrollView(
-          child: Column(children: alarmsList),
+          child: Align(
+            alignment: Alignment.topCenter,
+            child: Column(
+              children: alarmsList,
+            ),
+          ),
         ),
       ),
     );
