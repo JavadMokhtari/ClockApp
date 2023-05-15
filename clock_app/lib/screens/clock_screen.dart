@@ -1,7 +1,7 @@
 import 'dart:async';
+import 'package:clock_app/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:clock_app/constants/colors.dart';
-import 'package:clock_app/widgets/bottom_navigation_bar.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 
 class ClockScreen extends StatefulWidget {
@@ -38,24 +38,94 @@ class _ClockScreenState extends State<ClockScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: CircularStepProgressIndicator(
-        height: 200,
-        width: 200,
-        totalSteps: 60,
-        currentStep: DateTime.now().second.toInt(),
-        selectedStepSize: 5,
-        unselectedStepSize: 4.5,
-        gradientColor: GradientColors.linearGrad,
-        unselectedColor: const Color.fromARGB(80, 0, 0, 0),
-        child: Center(
-          child: Text(
-            _timeString,
-            style: const TextStyle(
-              fontSize: 35,
-              fontFamily: "ubuntu",
-              letterSpacing: 5,
-              color: Colors.white,
+    return NestedScrollView(
+      headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+        return <Widget>[
+          SliverAppBar(
+              pinned: true,
+              floating: true,
+              forceElevated: innerBoxIsScrolled,
+              toolbarHeight: 0,
+              expandedHeight: 300,
+              elevation: 10,
+              backgroundColor: CustomColors.background,
+              foregroundColor: CustomColors.foreground,
+              actions: [
+                IconButton(
+                  icon: const Icon(Icons.more_vert_rounded),
+                  onPressed: () {},
+                  color: CustomColors.foreground,
+                ),
+              ],
+              flexibleSpace: FlexibleSpaceBar(
+                centerTitle: true,
+                titlePadding: const EdgeInsets.only(top: 50),
+                title: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      _timeString,
+                      style: const TextStyle(
+                        fontSize: 35,
+                        fontFamily: "ubuntu",
+                        letterSpacing: 5,
+                        color: Colors.white,
+                      ),
+                    ),
+                    SizedBox(
+                      width: 120,
+                      height: 20,
+                      child: StepProgressIndicator(
+                        totalSteps: 20,
+                        currentStep: DateTime.now().second ~/ 3,
+                        selectedSize: 5,
+                        unselectedSize: 4,
+                        selectedGradientColor: GradientColors.linearGrad,
+                        unselectedColor: Colors.black54,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              bottom: AppBar(
+                backgroundColor: CustomColors.background,
+                foregroundColor: CustomColors.foreground,
+                elevation: 0,
+                actions: [
+                  IconButton(
+                    icon: const Icon(Icons.more_vert_rounded),
+                    onPressed: () {},
+                    color: CustomColors.foreground,
+                  ),
+                ],
+                title: ListTile(
+                  leading: innerBoxIsScrolled
+                      ? const Text(
+                          "clock",
+                          style: TextStyle(
+                            fontFamily: "ubuntu",
+                            fontSize: 18,
+                            color: CustomColors.foreground,
+                            letterSpacing: 1,
+                          ),
+                        )
+                      : null,
+                ),
+              ))
+        ];
+      },
+      body: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
+        child: SingleChildScrollView(
+          child: Align(
+            alignment: Alignment.topCenter,
+            child: Column(
+              children: const [
+                NewClock(),
+                NewClock(),
+                NewClock(),
+                NewClock(),
+              ],
             ),
           ),
         ),
