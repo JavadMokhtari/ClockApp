@@ -3,7 +3,7 @@ import 'package:clock_app/screens/alarm_screen.dart';
 import 'package:clock_app/screens/stopwatch_screen.dart';
 import 'package:clock_app/screens/timer_screen.dart';
 import 'package:flutter/material.dart';
-import 'constants/colors.dart';
+import 'constants/constants.dart';
 
 void main(List<String> args) {
   runApp(const ClockHomePage());
@@ -23,7 +23,7 @@ class _ClockHomePageState extends State<ClockHomePage> {
     const StopwatchScreen(),
     const TimerScreen(),
   ];
-  int _screenIndex = 1;
+  int _screenIndex = 2;
 
   void _onTapBarItems(int index) {
     setState(() {
@@ -34,6 +34,7 @@ class _ClockHomePageState extends State<ClockHomePage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(fontFamily: "ubuntu"),
       home: Scaffold(
         backgroundColor: CustomColors.background,
         // floatingActionButton: _screenIndex == 0,
@@ -45,7 +46,7 @@ class _ClockHomePageState extends State<ClockHomePage> {
           child: Padding(
             padding: const EdgeInsets.all(10),
             child: ClipRRect(
-              borderRadius: const BorderRadius.all(Radius.circular(40)),
+              borderRadius: const BorderRadius.all(40),
               child: BottomNavigationBar(
                 items: const [
                   BottomNavigationBarItem(
