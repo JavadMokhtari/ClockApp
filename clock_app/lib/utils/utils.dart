@@ -1,106 +1,66 @@
 import 'package:flutter/material.dart';
-import 'package:clock_app/constants/colors.dart';
+import 'package:clock_app/constants/constants.dart';
 
-class NewAlarm extends StatefulWidget {
-  final String time;
-  const NewAlarm({required this.time, super.key});
-
-  @override
-  State<NewAlarm> createState() => _NewAlarmState();
+extension ClockExtensions on int {
+  String toTimeString() {
+    if (this < 100) {
+      return toString().padLeft(2, '0');
+    } else {
+      return toString().substring(toString().length - 2);
+    }
+  }
 }
 
-class _NewAlarmState extends State<NewAlarm> {
-  bool alarmStatus = true;
+// Widget customButton({
+//   required void Function()? onPressed,
+//   required Widget? child,
+// }) {
+//   return
+// }
 
-  void switchAlarm(bool status) {
-    alarmStatus = status;
-    setState(() {});
-  }
+class CustomButton extends ElevatedButton {
+  // void Function()? onPressed;
+  // void Function()? onLongPress;
+  // void Function(bool)? onHover;
+  // void Function(bool)? onFocusChange;
+  // ButtonStyle? style;
+  // FocusNode? focusNode;
+  // bool autofocus = false;
+  // Clip clipBehavior = Clip.none;
+  // MaterialStatesController? statesController;
+  // Widget? child;
 
-  @override
+  const CustomButton({
+    super.key,
+    required super.onPressed,
+    super.onLongPress,
+    super.onHover,
+    super.onFocusChange,
+    super.style,
+    super.focusNode,
+    super.autofocus = false,
+    super.clipBehavior = Clip.none,
+    super.statesController,
+    required super.child,
+  });
+
   Widget build(BuildContext context) {
-    return Card(
-      color: CustomColors.alarmCardColor,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
-      ),
-      elevation: 20,
-      margin: const EdgeInsets.all(5),
-      child: SizedBox(
-        height: 60,
-        width: 400,
-        child: Center(
-          child: ListTile(
-            title: Text(
-              widget.time,
-              style: const TextStyle(
-                fontFamily: "ubuntu",
-                color: CustomColors.foreground,
+    return ClipRRect(
+      borderRadius: const BorderRadius.all(Radius.circular(40)),
+      child: ElevatedButton(
+        style: const ButtonStyle(
+          backgroundColor:
+              MaterialStatePropertyAll(CustomColors.secondaryColor),
+          textStyle: MaterialStatePropertyAll(
+            TextStyle(
                 fontSize: 20,
-                letterSpacing: 3,
-              ),
-            ),
-            trailing: Switch(
-              value: alarmStatus,
-              onChanged: switchAlarm,
-              activeColor: CustomColors.secondaryColor,
-            ),
+                color: CustomColors.foreground,
+                fontFamily: "ubuntu"),
           ),
+          fixedSize: MaterialStatePropertyAll(Size(90, 40)),
         ),
-      ),
-    );
-  }
-}
-
-class NewClock extends StatefulWidget {
-  const NewClock({super.key});
-
-  @override
-  State<NewClock> createState() => _NewClockState();
-}
-
-class _NewClockState extends State<NewClock> {
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      color: CustomColors.alarmCardColor,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
-      ),
-      elevation: 20,
-      margin: const EdgeInsets.all(5),
-      child: SizedBox(
-        height: 60,
-        width: 400,
-        child: Center(
-          child: ListTile(
-              title: Row(
-                children: const [
-                  Text(
-                    "City",
-                    style: TextStyle(
-                      fontFamily: "ubuntu",
-                      color: CustomColors.foreground,
-                      fontSize: 16,
-                      letterSpacing: 3,
-                    ),
-                  ),
-                  SizedBox(width: 10),
-                  Icon(
-                    Icons.nightlight_round_outlined,
-                    color: CustomColors.foreground,
-                  ),
-                ],
-              ),
-              trailing: const Text(
-                "03:45",
-                style: TextStyle(
-                  color: CustomColors.foreground,
-                  fontFamily: "ubuntu",
-                  fontSize: 20,
-                ),
-              )),
-        ),
+        onPressed: onPressed,
+        child: child,
       ),
     );
   }
