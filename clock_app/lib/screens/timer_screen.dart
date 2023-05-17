@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:clock_app/constants/colors.dart';
+import 'package:clock_app/constants/constants.dart';
 
 class TimerScreen extends StatefulWidget {
   const TimerScreen({super.key});
@@ -15,7 +15,6 @@ class _TimerScreenState extends State<TimerScreen> {
       child: Text(
         "Timer Page",
         style: TextStyle(
-          fontFamily: "ubuntu",
           fontSize: 30,
           color: CustomColors.foreground,
         ),

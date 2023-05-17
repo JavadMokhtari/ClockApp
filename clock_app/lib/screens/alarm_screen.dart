@@ -1,5 +1,5 @@
-import 'package:clock_app/utils/utils.dart';
-import 'package:clock_app/constants/colors.dart';
+import 'package:clock_app/utils/create_alarm.dart';
+import 'package:clock_app/constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -61,7 +61,6 @@ class _AlarmScreenState extends State<AlarmScreen> {
               ? const Text(
                   "All alarms are off",
                   style: TextStyle(
-                    fontFamily: "ubuntu",
                     fontSize: 18,
                     color: CustomColors.foreground,
                     letterSpacing: 1,
@@ -70,7 +69,6 @@ class _AlarmScreenState extends State<AlarmScreen> {
               : const Text(
                   "Alarm in 3 hours 20 minutes",
                   style: TextStyle(
-                    fontFamily: "ubuntu",
                     fontSize: 18,
                     color: CustomColors.foreground,
                     letterSpacing: 1,

@@ -1,7 +1,7 @@
 import 'dart:async';
-import 'package:clock_app/utils/utils.dart';
+import 'package:clock_app/utils/create_clock.dart';
 import 'package:flutter/material.dart';
-import 'package:clock_app/constants/colors.dart';
+import 'package:clock_app/constants/constants.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 
 class ClockScreen extends StatefulWidget {
@@ -67,7 +67,6 @@ class _ClockScreenState extends State<ClockScreen> {
                       _timeString,
                       style: const TextStyle(
                         fontSize: 35,
-                        fontFamily: "ubuntu",
                         letterSpacing: 5,
                         color: Colors.white,
                       ),
@@ -103,7 +102,6 @@ class _ClockScreenState extends State<ClockScreen> {
                       ? const Text(
                           "clock",
                           style: TextStyle(
-                            fontFamily: "ubuntu",
                             fontSize: 18,
                             color: CustomColors.foreground,
                             letterSpacing: 1,
