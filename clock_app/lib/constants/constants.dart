@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 
+class MyFonts {
+  static const String clockFont = "ubuntu";
+  static const String lettersFont = "ubuntu";
+}
+
 class CustomColors {
   static const background = Color.fromARGB(255, 25, 25, 25);
   static const foreground = Color.fromARGB(200, 255, 255, 255);
