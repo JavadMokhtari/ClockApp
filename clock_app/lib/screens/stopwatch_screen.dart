@@ -18,7 +18,7 @@ class _StopwatchScreenState extends State<StopwatchScreen> {
   late Timer _timer;
   Mode _mode = Mode.reset;
   String _result = "00:00:00";
-  List<String> _lapTimes = [];
+  List<DataCell> _lapTimes = [];
 
   void _start() {
     _timer = Timer.periodic(const Duration(microseconds: 35), (Timer timer) {
@@ -50,7 +50,7 @@ class _StopwatchScreenState extends State<StopwatchScreen> {
     String lapTime;
     lapTime = "$minute:$second:$milliSecond";
     setState(() {
-      _lapTimes.add(lapTime);
+      _lapTimes.add(DataCell(Text(lapTime)));
     });
   }
 
@@ -62,10 +62,6 @@ class _StopwatchScreenState extends State<StopwatchScreen> {
       _mode = Mode.reset;
       _lapTimes.clear();
     });
-  }
-
-  void onPressedStart() {
-    _start();
   }
 
   @override
@@ -82,53 +78,71 @@ class _StopwatchScreenState extends State<StopwatchScreen> {
               letterSpacing: 5,
             ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              ClipRRect(
-                borderRadius: const BorderRadius.all(40),
-                child: ElevatedButton(
-                  style: const ButtonStyle(
-                    backgroundColor:
-                        MaterialStatePropertyAll(Colors.deepPurple),
-                    textStyle: MaterialStatePropertyAll(
-                      TextStyle(
-                          fontSize: 18,
+          DataTable(columns: const [
+            DataColumn(label: Text("Lap")),
+            DataColumn(label: Text("Lap Times")),
+            DataColumn(label: Text("Overall Time")),
+          ], rows: [
+            DataRow(cells: _lapTimes)
+          ]),
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 100,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ClipRRect(
+                  borderRadius: const BorderRadius.all(Radius.circular(40)),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: CustomColors.navigationBarBackground,
+                      foregroundColor: CustomColors.foreground,
+                      disabledBackgroundColor:
+                          const Color.fromARGB(100, 18, 18, 18),
+                      disabledForegroundColor:
+                          const Color.fromARGB(80, 255, 255, 255),
+                      fixedSize: const Size(100, 40),
+                      textStyle: const TextStyle(
+                          fontSize: 15,
                           color: CustomColors.foreground,
-                          fontFamily: "ubuntu"),
+                          fontFamily: "ubuntu",
+                          letterSpacing: 1),
                     ),
-                    // fixedSize: MaterialStatePropertyAll(Size(90, 30)),
+                    onPressed: _mode == Mode.started
+                        ? _lap
+                        : (_mode == Mode.stoped ? _reset : null),
+                    child: _mode != Mode.stoped
+                        ? const Text('Lap')
+                        : const Text('Reset'),
                   ),
-                  onPressed: _mode == Mode.started
-                      ? _lap
-                      : (_mode == Mode.stoped ? _reset : null),
-                  child: _mode != Mode.stoped
-                      ? const Text('Lap')
-                      : const Text('Reset'),
                 ),
-              ),
-              ClipRRect(
-                borderRadius: const BorderRadius.all(40),
-                child: ElevatedButton(
-                    style: const ButtonStyle(
-                      backgroundColor:
-                          MaterialStatePropertyAll(Colors.deepPurple),
-                      textStyle: MaterialStatePropertyAll(
-                        TextStyle(
-                            fontSize: 18,
+                ClipRRect(
+                  borderRadius: const BorderRadius.all(Radius.circular(40)),
+                  child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.deepPurple,
+                        foregroundColor: CustomColors.foreground,
+                        disabledBackgroundColor:
+                            const Color.fromARGB(100, 18, 18, 18),
+                        disabledForegroundColor:
+                            const Color.fromARGB(80, 255, 255, 255),
+                        fixedSize: const Size(100, 40),
+                        textStyle: const TextStyle(
+                            fontSize: 15,
                             color: CustomColors.foreground,
-                            fontFamily: "ubuntu"),
+                            fontFamily: "ubuntu",
+                            letterSpacing: 1),
                       ),
-                      // fixedSize: MaterialStatePropertyAll(Size(90, 30)),
-                    ),
-                    onPressed: _mode == Mode.started ? _stop : _start,
-                    child: _mode == Mode.reset
-                        ? const Text('Start')
-                        : (_mode == Mode.started
-                            ? const Text('Stop')
-                            : const Text("Resume"))),
-              ),
-            ],
+                      onPressed: _mode == Mode.started ? _stop : _start,
+                      child: _mode == Mode.reset
+                          ? const Text('Start')
+                          : (_mode == Mode.started
+                              ? const Text('Stop')
+                              : const Text("Resume"))),
+                ),
+              ],
+            ),
           ),
         ],
       ),
