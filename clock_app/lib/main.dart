@@ -46,7 +46,7 @@ class _ClockHomePageState extends State<ClockHomePage> {
           child: Padding(
             padding: const EdgeInsets.all(10),
             child: ClipRRect(
-              borderRadius: const BorderRadius.all(40),
+              borderRadius: const BorderRadius.all(Radius.circular(40)),
               child: BottomNavigationBar(
                 items: const [
                   BottomNavigationBarItem(
