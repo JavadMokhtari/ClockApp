@@ -34,7 +34,20 @@ class _ClockHomePageState extends State<ClockHomePage> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(fontFamily: "ubuntu"),
+      theme: ThemeData(
+          fontFamily: "ubuntu",
+          dataTableTheme: const DataTableThemeData(
+            headingTextStyle: TextStyle(
+              fontFamily: "ubuntu",
+              fontSize: 16,
+              color: CustomColors.foreground,
+            ),
+            dataTextStyle: TextStyle(
+              fontFamily: "ubuntu",
+              fontSize: 14,
+              color: CustomColors.foreground,
+            ),
+          )),
       home: Scaffold(
         backgroundColor: CustomColors.background,
         // floatingActionButton: _screenIndex == 0,
