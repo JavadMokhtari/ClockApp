@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:clock_app/constants/constants.dart';
 import 'package:clock_app/utils/utils.dart';
 
+enum Mode { reset, started, stoped }
+
 class StopwatchScreen extends StatefulWidget {
   const StopwatchScreen({super.key});
 
@@ -11,23 +13,19 @@ class StopwatchScreen extends StatefulWidget {
   State<StopwatchScreen> createState() => _StopwatchScreenState();
 }
 
-enum Mode { reset, started, stoped }
-
 class _StopwatchScreenState extends State<StopwatchScreen> {
   final Stopwatch _stopwatch = Stopwatch();
+  final List<DataRow> _lapsRows = [];
   late Timer _timer;
   Mode _mode = Mode.reset;
-  String _result = "00:00:00";
-  List<DataCell> _lapTimes = [];
+  String _result = "00:00:000";
+  Duration _lastLapTime = "00:00:000".toTimerDuration();
+  int _lapID = 0;
 
   void _start() {
-    _timer = Timer.periodic(const Duration(microseconds: 35), (Timer timer) {
+    _timer = Timer.periodic(const Duration(microseconds: 10), (Timer timer) {
       setState(() {
-        String minute = _stopwatch.elapsed.inMinutes.toTimeString();
-        String second = _stopwatch.elapsed.inSeconds.toTimeString();
-        String milliSecond = _stopwatch.elapsed.inMilliseconds.toTimeString();
-
-        _result = "$minute:$second:$milliSecond";
+        _result = _stopwatch.elapsed.toTimerString();
         _mode = Mode.started;
       });
     });
@@ -43,24 +41,29 @@ class _StopwatchScreenState extends State<StopwatchScreen> {
   }
 
   void _lap() {
-    String minute = _stopwatch.elapsed.inMinutes.toTimeString();
-    String second = _stopwatch.elapsed.inSeconds.toTimeString();
-    String milliSecond = _stopwatch.elapsed.inMilliseconds.toTimeString();
+    Duration lapTimeDuration = _result.toTimerDuration() - _lastLapTime;
+    _lapID++;
 
-    String lapTime;
-    lapTime = "$minute:$second:$milliSecond";
-    setState(() {
-      _lapTimes.add(DataCell(Text(lapTime)));
-    });
+    DataRow lapRow = DataRow(cells: [
+      DataCell(Center(child: Text(_lapID.toString()))),
+      DataCell(Center(child: Text(lapTimeDuration.toTimerString()))),
+      DataCell(Center(child: Text(_result)))
+    ]);
+
+    _lapsRows.insert(0, lapRow);
+    _lastLapTime = _result.toTimerDuration();
+    setState(() {});
   }
 
   void _reset() {
     _stop();
     _stopwatch.reset();
     setState(() {
-      _result = "00:00:00";
+      _result = "00:00:000";
       _mode = Mode.reset;
-      _lapTimes.clear();
+      _lapsRows.clear();
+      _lastLapTime = "00:00:000".toTimerDuration();
+      _lapID = 0;
     });
   }
 
@@ -78,16 +81,22 @@ class _StopwatchScreenState extends State<StopwatchScreen> {
               letterSpacing: 5,
             ),
           ),
-          DataTable(columns: const [
-            DataColumn(label: Text("Lap")),
-            DataColumn(label: Text("Lap Times")),
-            DataColumn(label: Text("Overall Time")),
-          ], rows: [
-            DataRow(cells: _lapTimes)
-          ]),
+          SizedBox(
+            height: 300,
+            child: SingleChildScrollView(
+              child: DataTable(
+                columns: const [
+                  DataColumn(label: Text("Lap")),
+                  DataColumn(label: Text("Lap Times")),
+                  DataColumn(label: Text("Overall Time")),
+                ],
+                rows: _lapsRows,
+              ),
+            ),
+          ),
           Padding(
             padding: const EdgeInsets.symmetric(
-              horizontal: 100,
+              horizontal: 80,
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -121,7 +130,9 @@ class _StopwatchScreenState extends State<StopwatchScreen> {
                   borderRadius: const BorderRadius.all(Radius.circular(40)),
                   child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.deepPurple,
+                        backgroundColor: _mode == Mode.started
+                            ? const Color.fromARGB(255, 160, 45, 45)
+                            : Colors.deepPurple,
                         foregroundColor: CustomColors.foreground,
                         disabledBackgroundColor:
                             const Color.fromARGB(100, 18, 18, 18),
