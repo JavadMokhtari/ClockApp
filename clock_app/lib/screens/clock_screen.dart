@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:clock_app/utils/create_clock.dart';
+import 'package:clock_app/widgets/create_clock.dart';
 import 'package:flutter/material.dart';
 import 'package:clock_app/constants/constants.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';

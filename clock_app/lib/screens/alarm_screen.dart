@@ -1,4 +1,4 @@
-import 'package:clock_app/utils/create_alarm.dart';
+import 'package:clock_app/widgets/create_alarm.dart';
 import 'package:clock_app/constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
