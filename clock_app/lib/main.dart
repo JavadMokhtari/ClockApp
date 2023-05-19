@@ -23,7 +23,7 @@ class _ClockHomePageState extends State<ClockHomePage> {
     const StopwatchScreen(),
     const TimerScreen(),
   ];
-  int _screenIndex = 2;
+  int _screenIndex = 0;
 
   void _onTapBarItems(int index) {
     setState(() {
