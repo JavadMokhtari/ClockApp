@@ -1,4 +1,4 @@
-import 'package:clock_app/widgets/create_alarm.dart';
+import 'package:clock_app/widgets/new_alarm.dart';
 import 'package:clock_app/constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -12,9 +12,9 @@ class AlarmScreen extends StatefulWidget {
 
 class _AlarmScreenState extends State<AlarmScreen> {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+
   List<Widget> _alarmsList = [];
   List<String> _loadedAlarms = [];
-  int _numOnAlarms = 0;
 
   @override
   void initState() {
@@ -36,13 +36,18 @@ class _AlarmScreenState extends State<AlarmScreen> {
     });
   }
 
-  Future<void> _addAlarm() async {
+  Future<void> _addAlarm(BuildContext context) async {
+    final TimeOfDay? pickedAlarm = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+    );
     final SharedPreferences prefs = await _prefs;
-    final DateTime alarm = DateTime.now();
-    final String formatedAlarm = "${alarm.hour}:${alarm.minute}";
+
     setState(() {
-      _loadedAlarms.add(formatedAlarm);
-      prefs.setStringList('AlarmsList', _loadedAlarms);
+      if (pickedAlarm != null) {
+        _loadedAlarms.add("${pickedAlarm.hour}:${pickedAlarm.minute}");
+        prefs.setStringList('AlarmsList', _loadedAlarms);
+      }
       _loadAlarms();
     });
   }
@@ -57,7 +62,7 @@ class _AlarmScreenState extends State<AlarmScreen> {
         foregroundColor: CustomColors.foreground,
         elevation: 0,
         title: ListTile(
-          leading: _numOnAlarms == 0
+          leading: _alarmsList.isEmpty
               ? const Text(
                   "All alarms are off",
                   style: TextStyle(
@@ -101,7 +106,7 @@ class _AlarmScreenState extends State<AlarmScreen> {
               backgroundColor: Colors.deepPurple,
               foregroundColor: CustomColors.foreground,
               elevation: 15,
-              onPressed: _addAlarm,
+              onPressed: () => _addAlarm(context),
               child: const Icon(Icons.add_alarm),
             ),
           ),
