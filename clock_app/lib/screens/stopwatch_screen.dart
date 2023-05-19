@@ -134,10 +134,6 @@ class _StopwatchScreenState extends State<StopwatchScreen> {
                             ? const Color.fromARGB(255, 160, 45, 45)
                             : Colors.deepPurple,
                         foregroundColor: CustomColors.foreground,
-                        disabledBackgroundColor:
-                            const Color.fromARGB(100, 18, 18, 18),
-                        disabledForegroundColor:
-                            const Color.fromARGB(80, 255, 255, 255),
                         fixedSize: const Size(100, 40),
                         textStyle: const TextStyle(
                             fontSize: 15,
