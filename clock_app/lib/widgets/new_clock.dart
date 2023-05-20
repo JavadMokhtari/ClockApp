@@ -1,4 +1,4 @@
-import 'package:clock_app/constants/constants.dart';
+import 'package:clock_app/settings/constants.dart';
 import 'package:flutter/material.dart';
 
 class NewClock extends StatefulWidget {
