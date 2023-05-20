@@ -1,5 +1,4 @@
-import 'package:clock_app/widgets/new_alarm.dart';
-import 'package:clock_app/constants/constants.dart';
+import 'package:clock_app/settings/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -12,9 +11,9 @@ class AlarmScreen extends StatefulWidget {
 
 class _AlarmScreenState extends State<AlarmScreen> {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-
   List<Widget> _alarmsList = [];
   List<String> _loadedAlarms = [];
+  bool alarmStatus = true;
 
   @override
   void initState() {
@@ -26,11 +25,12 @@ class _AlarmScreenState extends State<AlarmScreen> {
     final SharedPreferences prefs = await _prefs;
     List<String> loadedAlarms;
     List<Widget> alarmsList = [];
+
     setState(() {
       loadedAlarms = prefs.getStringList('AlarmsList') ?? [];
       _loadedAlarms = loadedAlarms;
-      for (String alarm in _loadedAlarms) {
-        alarmsList.add(NewAlarm(time: alarm));
+      for (String alarmTime in _loadedAlarms) {
+        alarmsList.add(newAlarm(time: alarmTime));
       }
       _alarmsList = alarmsList;
     });
@@ -40,16 +40,56 @@ class _AlarmScreenState extends State<AlarmScreen> {
     final TimeOfDay? pickedAlarm = await showTimePicker(
       context: context,
       initialTime: TimeOfDay.now(),
+      confirmText: "SET ALARM",
     );
     final SharedPreferences prefs = await _prefs;
 
     setState(() {
       if (pickedAlarm != null) {
-        _loadedAlarms.add("${pickedAlarm.hour}:${pickedAlarm.minute}");
+        String alarmHour = pickedAlarm.hour.toString().padLeft(2, '0');
+        String alarmMinute = pickedAlarm.minute.toString().padLeft(2, '0');
+        _loadedAlarms.add("$alarmHour:$alarmMinute");
         prefs.setStringList('AlarmsList', _loadedAlarms);
       }
       _loadAlarms();
     });
+  }
+
+  void switchAlarm(bool status) {
+    alarmStatus = status;
+    setState(() {});
+  }
+
+  Widget newAlarm({required String time}) {
+    bool alarmStatus = true;
+    return Card(
+      color: CustomColors.alarmCardColor,
+      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+      elevation: 20,
+      margin: const EdgeInsets.all(5),
+      child: SizedBox(
+        height: 60,
+        width: 400,
+        child: Center(
+          child: ListTile(
+            titleAlignment: ListTileTitleAlignment.center,
+            title: Text(
+              time,
+              style: const TextStyle(
+                color: CustomColors.foreground,
+                fontSize: 20,
+                letterSpacing: 3,
+              ),
+            ),
+            trailing: Switch(
+              value: alarmStatus,
+              onChanged: switchAlarm,
+              activeColor: CustomColors.secondaryColor,
+            ),
+          ),
+        ),
+      ),
+    );
   }
 
   @override
