@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:clock_app/widgets/new_clock.dart';
 import 'package:flutter/material.dart';
-import 'package:clock_app/constants/constants.dart';
+import 'package:clock_app/settings/constants.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 
 class ClockScreen extends StatefulWidget {

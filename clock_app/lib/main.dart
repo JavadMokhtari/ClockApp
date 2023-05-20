@@ -2,21 +2,22 @@ import 'package:clock_app/screens/clock_screen.dart';
 import 'package:clock_app/screens/alarm_screen.dart';
 import 'package:clock_app/screens/stopwatch_screen.dart';
 import 'package:clock_app/screens/timer_screen.dart';
+import 'package:clock_app/settings/themes.dart';
 import 'package:flutter/material.dart';
-import 'constants/constants.dart';
+import 'settings/constants.dart';
 
 void main(List<String> args) {
-  runApp(const ClockHomePage());
+  runApp(const ClockApp());
 }
 
-class ClockHomePage extends StatefulWidget {
-  const ClockHomePage({super.key});
+class ClockApp extends StatefulWidget {
+  const ClockApp({super.key});
 
   @override
-  State<ClockHomePage> createState() => _ClockHomePageState();
+  State<ClockApp> createState() => _ClockAppState();
 }
 
-class _ClockHomePageState extends State<ClockHomePage> {
+class _ClockAppState extends State<ClockApp> {
   final List<Widget> _screens = [
     const AlarmScreen(),
     const ClockScreen(),
@@ -35,22 +36,31 @@ class _ClockHomePageState extends State<ClockHomePage> {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-          fontFamily: "ubuntu",
-          dataTableTheme: const DataTableThemeData(
-            headingTextStyle: TextStyle(
-              fontFamily: "ubuntu",
-              fontSize: 16,
-              color: CustomColors.foreground,
-            ),
-            dataTextStyle: TextStyle(
-              fontFamily: "ubuntu",
-              fontSize: 14,
-              color: CustomColors.foreground,
-            ),
-          )),
+        fontFamily: "ubuntu",
+        timePickerTheme: timePickerTheme(),
+        textButtonTheme: TextButtonThemeData(
+          style: ButtonStyle(
+            foregroundColor: MaterialStateColor.resolveWith(
+                (states) => CustomColors.secondaryColor),
+            overlayColor: MaterialStateColor.resolveWith(
+                (states) => CustomColors.alarmCardColor),
+          ),
+        ),
+        dataTableTheme: const DataTableThemeData(
+          headingTextStyle: TextStyle(
+            fontFamily: "ubuntu",
+            fontSize: 16,
+            color: CustomColors.foreground,
+          ),
+          dataTextStyle: TextStyle(
+            fontFamily: "ubuntu",
+            fontSize: 14,
+            color: CustomColors.foreground,
+          ),
+        ),
+      ),
       home: Scaffold(
         backgroundColor: CustomColors.background,
-        // floatingActionButton: _screenIndex == 0,
         body: _screens[_screenIndex],
         bottomNavigationBar: Theme(
           data: Theme.of(context).copyWith(

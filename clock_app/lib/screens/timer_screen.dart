@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:clock_app/constants/constants.dart';
+import 'package:clock_app/settings/constants.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 
@@ -98,7 +98,7 @@ class _TimerScreenState extends State<TimerScreen> {
               : CircularCountDownTimer(
                   width: 200,
                   height: 200,
-                  duration: _hour * 24 + _minute * 60 + _second,
+                  duration: _hour * 3600 + _minute * 60 + _second,
                   isTimerTextShown: true,
                   isReverse: true,
                   strokeWidth: 10,

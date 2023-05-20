@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:clock_app/constants/constants.dart';
+import 'package:clock_app/settings/constants.dart';
 import 'package:clock_app/utils/utils.dart';
 
 enum Mode { reset, started, stoped }
@@ -28,8 +28,8 @@ class _StopwatchScreenState extends State<StopwatchScreen> {
         _result = _stopwatch.elapsed.toTimerString();
         _mode = Mode.started;
       });
+      _stopwatch.start();
     });
-    _stopwatch.start();
   }
 
   void _stop() {
