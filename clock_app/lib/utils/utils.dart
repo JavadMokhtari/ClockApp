@@ -19,14 +19,3 @@ extension StringToDuration on String {
         milliseconds: substring(6, 9).toInt());
   }
 }
-
-int toSecond({required int hour, required int minute, required int second}) =>
-    hour * 24 + minute * 60 + second;
-
-String countToTime(int duration) {
-  String hour = (duration ~/ 3600).toString().padLeft(2, '0');
-  String minute = ((duration % 3600) ~/ 60).toString().padLeft(2, '0');
-  String second = (duration % 3600 % 60).toString().padLeft(2, '0');
-
-  return "$hour:$minute:$second";
-}
